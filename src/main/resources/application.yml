@@ -1,0 +1,17 @@
+server:
+  port: 8762
+spring:
+  application:
+    name: gateway-service
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    instance:
+            appname: gateway-service
+            instanceId: gateway-service:${spring.application.instance_id:${random.value}}
+    serviceUrl:
+      defaultZone: ${REGISTRY_URI:http://localhost:8761/eureka}
+management:
+  security:
+    enabled: false
