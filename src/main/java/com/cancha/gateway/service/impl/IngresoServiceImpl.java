@@ -27,8 +27,10 @@ public class IngresoServiceImpl implements IngresoService {
     }
 
     public UsuarioDto ingreso(IngresoRequest ingresoRequest) {
+        System.out.println(ingresoRequest.getPassword());
         String pass = encrypterUtil.encript(ingresoRequest.getPassword());
         ingresoRequest.setPassword(pass);
+        System.out.println(pass);
         UsuarioDto usuarioDto = clienteServiceRest.validarIngreso(ingresoRequest);
         usuarioDto.setToken(this.getJWTToken(usuarioDto.getNickname()));
         return usuarioDto;

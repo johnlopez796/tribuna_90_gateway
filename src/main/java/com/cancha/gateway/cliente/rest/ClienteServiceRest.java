@@ -1,7 +1,9 @@
 package com.cancha.gateway.cliente.rest;
 
 import com.cancha.gateway.dto.UsuarioDto;
+import com.cancha.gateway.web.handler.error.RestException;
 import com.cancha.gateway.web.rest.controller.model.IngresoRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -16,10 +18,8 @@ public class ClienteServiceRest {
             ResponseEntity<UsuarioDto> usuarioEntity = restTemplate.postForEntity("http://localhost:8082/cliente/ingreso",ingresoRequest,UsuarioDto.class);
             return usuarioEntity.getBody();
         }catch (RestClientException ex){
-            System.out.println(ex.getMessage());
+            throw new RestException(HttpStatus.UNAUTHORIZED,"Usuario o contraseña invalido");
         }
-        return null;
-
     }
 
     public UsuarioDto registro(UsuarioDto usuarioDto){
