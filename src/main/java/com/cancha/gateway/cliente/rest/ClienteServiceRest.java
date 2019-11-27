@@ -33,4 +33,14 @@ public class ClienteServiceRest {
         return null;
 
     }
+
+    public UsuarioDto validarIngresoAdm(IngresoRequest ingresoRequest){
+        try{
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<UsuarioDto> usuarioEntity = restTemplate.postForEntity("http://localhost:8083/cliente/ingreso",ingresoRequest,UsuarioDto.class);
+            return usuarioEntity.getBody();
+        }catch (RestClientException ex){
+            throw new RestException(HttpStatus.UNAUTHORIZED,"Usuario o contraseña invalido");
+        }
+    }
 }

@@ -29,4 +29,11 @@ public class IngresoControllerImpl implements IngresoController {
     public ResponseEntity<UsuarioDto> registro(@RequestBody UsuarioDto usuarioDto) {
         return ResponseEntity.ok(ingresoService.registroUsuario(usuarioDto));
     }
+
+    @PostMapping("/adm")
+    public ResponseEntity<UsuarioDto> validarIngresoAdm(@RequestBody IngresoRequest ingresoRq) {
+        return ResponseEntity.ok(ingresoService.ingresoAdm(ingresoRq));
+    }
+
+
 }

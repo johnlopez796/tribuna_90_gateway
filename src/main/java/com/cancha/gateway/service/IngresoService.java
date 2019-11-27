@@ -10,7 +10,9 @@ public interface IngresoService {
 
     UsuarioDto ingreso(IngresoRequest ingresoRequest);
 
-    String getJWTToken(String username);
+    String getJWTToken(UsuarioDto usuarioDto);
 
     UsuarioDto registroUsuario(UsuarioDto usuarioDto);
+
+    UsuarioDto ingresoAdm(IngresoRequest ingresoRequest);
 }

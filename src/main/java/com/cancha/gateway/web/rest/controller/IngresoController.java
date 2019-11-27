@@ -30,4 +30,6 @@ public interface IngresoController {
             @ApiResponse(code = 401, response = ApiError.class, message = "Contraseña y/o usuario invalido")
     })
     ResponseEntity<UsuarioDto> registro(@RequestBody UsuarioDto usuarioDto);
+
+    ResponseEntity<UsuarioDto> validarIngresoAdm(@RequestBody IngresoRequest ingresoRq);
 }

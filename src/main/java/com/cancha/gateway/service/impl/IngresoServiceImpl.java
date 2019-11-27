@@ -32,7 +32,17 @@ public class IngresoServiceImpl implements IngresoService {
         ingresoRequest.setPassword(pass);
         System.out.println(pass);
         UsuarioDto usuarioDto = clienteServiceRest.validarIngreso(ingresoRequest);
-        usuarioDto.setToken(this.getJWTToken(usuarioDto.getNickname()));
+        usuarioDto.setToken(this.getJWTToken(usuarioDto));
+        return usuarioDto;
+    }
+
+    public UsuarioDto ingresoAdm(IngresoRequest ingresoRequest) {
+        System.out.println(ingresoRequest.getPassword());
+        String pass = encrypterUtil.encript(ingresoRequest.getPassword());
+        ingresoRequest.setPassword(pass);
+        System.out.println(pass);
+        UsuarioDto usuarioDto = clienteServiceRest.validarIngresoAdm(ingresoRequest);
+        usuarioDto.setToken(this.getJWTToken(usuarioDto));
         return usuarioDto;
     }
 
@@ -42,19 +52,20 @@ public class IngresoServiceImpl implements IngresoService {
         return clienteServiceRest.registro(usuarioDto);
     }
 
-    public String getJWTToken(String username) {
-        String secretKey = "mySecretKey";
+    public String getJWTToken(UsuarioDto usuarioDto) {
+        String secretKey = "tribuna90";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList("cliente");
+                .commaSeparatedStringToAuthorityList(String.join(",",usuarioDto.getRol()));
 
         String token = Jwts
                 .builder()
-                .setId("softtekJWT")
-                .setSubject(username)
+                .setId("user")
+                .setSubject(usuarioDto.getDocumento())
                 .claim("authorities",
                         grantedAuthorities.stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
+                .claim("usuario",usuarioDto)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 600000))
                 .signWith(SignatureAlgorithm.HS512,
